@@ -16,19 +16,20 @@
       data() {
         return {
           a: "111",
-          b: "222",
+          b: { test: "1" },
+          c: [1, 2, 3],
         };
       },
       // render(h) {
       //   return h('div',{id:'a'},'helloRender')
       // },
-      template: `<div id="app">{{a}}{{b}}</div>`,
+      template: `<div id="app">{{a}}{{c}}</div>`,
     });
     console.log("vm", vm);
+    // 我们在这里模拟更新
     setTimeout(() => {
-      vm.a;
-      // 此方法是刷新视图的核心
-      // vm._update(vm._render());
-    }, 1000);
+      vm.c.push(4);
+      vm.a = 456;
+    }, 2000);
   </script>
 </html>
