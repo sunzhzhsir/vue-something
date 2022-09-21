@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vue异步更新</title>
+    <title>Mixin混入原理</title>
   </head>
   <body>
     <div id="app"></div>
@@ -17,19 +17,15 @@
       data() {
         return {
           a: 123,
+          b: "bbb",
+          c: "ccc",
         };
       },
-      // render(h) {
-      //   return h('div',{id:'a'},'hello')
-      // },
-      template: `<div id="app">hello {{a}}</div>`,
+      template: `<div id="a">hello {{a}}<div>{{b}}</div><div>{{c}}</div></div>`,
     });
 
-    // 当我们每一次改变数据的时候  渲染watcher都会执行一次 这个是影响性能的
     setTimeout(() => {
       vm.a = 1;
-      vm.a = 2;
-      vm.a = 3;
     }, 1000);
   </script>
 </html>
