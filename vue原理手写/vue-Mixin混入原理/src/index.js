@@ -1,6 +1,8 @@
-import { initMixin } from "./init.js";
+import { initVue } from "./init.js";
 import { lifecycleMixin } from "./lifecycle.js";
 import { renderMixin } from "./render.js";
+
+import { initMixin } from "./global-api/mixin.js";
 // Vue就是一个构造函数 通过new关键字进行实例化
 function Vue(options) {
   // 这里开始进行Vue初始化工作
@@ -8,8 +10,9 @@ function Vue(options) {
 }
 // _init方法是挂载在Vue原型的方法 通过引入文件的方式进行原型挂载需要传入Vue
 // 此做法有利于代码分割
+initVue(Vue);
+//混入全局混入方法
 initMixin(Vue);
-
 // 混入_render
 renderMixin(Vue);
 // 混入_update

@@ -11,21 +11,27 @@
   </body>
   <script type="module">
     import Vue from "./index.js";
+
+    Vue.mixin({
+      created() {
+        console.log("我是全局混入");
+      },
+    });
     // Vue实例化
     let vm = new Vue({
       el: "#app",
       data() {
         return {
-          a: 123,
-          b: "bbb",
-          c: "ccc",
+          a: { a: { a: { b: 456 } } },
+          aa: 1,
+          bb: 2,
         };
       },
-      template: `<div id="a">hello {{a}}<div>{{b}}</div><div>{{c}}</div></div>`,
+      created() {
+        console.log("我是自己的");
+      },
+      template: `<div id="a">hello 这是我自己写的Vue{{name}}
+          </div>`,
     });
-
-    setTimeout(() => {
-      vm.a = 1;
-    }, 1000);
   </script>
 </html>

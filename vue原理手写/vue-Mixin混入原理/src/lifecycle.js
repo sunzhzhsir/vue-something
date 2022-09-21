@@ -7,6 +7,8 @@ export function mountComponent(vm, el) {
 
   // 真实的el选项赋值给实例的$el属性 为之后虚拟dom产生的新的dom替换老的dom做铺垫
   vm.$el = el;
+
+  callHook(vm, "beforeMount"); //初始渲染之前
   //   _update和._render方法都是挂载在Vue原型的方法  类似_init
   // vm._update(vm._render());
 
@@ -18,7 +20,15 @@ export function mountComponent(vm, el) {
     console.log("vm._render()", render);
     vm._update(render);
   };
-  new Watcher(vm, updateComponent, null, true);
+  new Watcher(
+    vm,
+    updateComponent,
+    () => {
+      callHook(vm, "beforeUpdate"); //更新之前
+    },
+    true
+  );
+  callHook(vm, "mounted"); //渲染完成之后
 }
 
 export function lifecycleMixin(Vue) {
@@ -34,4 +44,13 @@ export function lifecycleMixin(Vue) {
       vm.$el = patch(prevVnode, vnode); // 更新时把上次的vnode和这次更新的vnode穿进去 进行diff算法
     }
   };
+}
+export function callHook(vm, hook) {
+  // 依次执行生命周期对应的方法
+  const handlers = vm.$options[hook];
+  if (handlers) {
+    for (let i = 0; i < handlers.length; i++) {
+      handlers[i].call(vm); //生命周期里面的this指向当前实例
+    }
+  }
 }
